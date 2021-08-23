@@ -32,3 +32,11 @@ Crie uma nova branch na interface do Github e rode os seguintes comandos:
  *git add "nome dos arquivos" ou git add .  - marca tudo para subir no commit, CUIDADO
  *git commit -m "mensagem do commit"
  *git push -u
+ 
+ # Rodando projeto
+ ---Use o CMD do Windows para facilitar, pelo PowerShell há necessidade de adicionar caminhos no Path.---
+ * npm init -y
+ * npm install
+ * npm install --global expo-cli
+ * expo start
+ Façao o download e instalação do APP do Expo Cli em seu smartphone. Após isso, conecte o telefone via cabo USB no seu computador, e abra o APP na opção de ler QR, e leia o código QR na página web que abriu apos rodar o "expo start".
