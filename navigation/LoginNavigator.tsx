@@ -8,6 +8,8 @@ import { useFonts } from '@use-expo/font';
 
 import Login from '../screens/AuthScreens/Login'
 import Signup from '../screens/AuthScreens/Signup'
+import Welcome from '../screens/AuthScreens/Welcome'
+import StackNavigator from './StackNavigator'
 
 const Stack = createNativeStackNavigator();
 
@@ -23,8 +25,10 @@ export default function App() {
         return (
             <NavigationContainer>
                 <Stack.Navigator>
+                    <Stack.Screen name='Welcome' component={Welcome} options={{headerShown: false}}/>
                     <Stack.Screen name='Login' component={Login} options={{headerShown: false, title:'Login'}}/>
                     <Stack.Screen name='Signup' component={Signup} options={{headerShown: true}}/>
+                    <Stack.Screen name='StackNavigator' component={StackNavigator}/>
                 </Stack.Navigator>
             </NavigationContainer>
         )

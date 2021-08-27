@@ -1,5 +1,6 @@
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
 import db from '../config/Firebase';
+import { orderBy, } from 'lodash'
 
 export const updateEmail = (input) => {
     return { type: 'UPDATE_EMAIL', payload: input}
@@ -38,5 +39,34 @@ export const signup = () => {
         }catch(e){
             alert(e)
         }
+    }
+}
+
+export const login = () => {
+    return async (dispatch, getState) =>{
+        try {
+            const {email, password} = getState().user
+            const response = await firebase.auth().signInWithEmailAndPassword(email, password)
+            dispatch(getUser(response.user.uid))
+        }catch(e){
+            alert(e)
+        }
+    }
+}
+
+export const getUser = (uid) => {
+    return async (dispatch) =>{
+        const userQuery = await db.collection('users').doc(uid).get()
+        let user = userQuery.data()
+
+        let posts = []
+        const postsQuery = await db.collection('posts').where('uid', '==', uid).get()
+
+        postsQuery.forEach(function(response){
+            posts.push(response.data())
+        })
+        user.posts = orderBy(posts, 'data', 'desc')
+
+        dispatch({type: 'LOGIN', payload:user})
     }
 }
