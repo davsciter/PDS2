@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import db from '../config/Firebase';
+import { orderBy, } from 'lodash'
 
 export const updateEmail = (input) => {
     return { type: 'UPDATE_EMAIL', payload: input}
@@ -12,6 +13,7 @@ export const updatePassword = (input) => {
 export const updateUsername = (input) => {
     return {type:'UPDATE_USERNAME', payload: input}
 }
+
 
 export const signup = () => {
     return async (dispatch, getState) => {
@@ -35,6 +37,41 @@ export const signup = () => {
                 dispatch({type: 'LOGIN', payload: user})
                 alert('Usuario cadastrado!')
             }
+        }catch(e){
+            alert(e)
+        }
+    }
+}
+
+export const login = () => {
+    return async (dispatch, getState) =>{
+        try{
+            const { email, password } = getState().user
+            const response = await firebase.auth().signInWithEmailAndPassword(email, password)
+            dispatch(getUser(response.user.uid)) //retorna a id unica do usario
+        }catch(e){
+            alert(e)
+        }
+    }
+}
+
+//retorna as estatisticas uid do usuario usada no login
+export const getUser = (uid) => {
+    return async (dispatch) => {
+        try{
+            const userQuery = await db.collection('users').doc(uid).get()
+            let user = userQuery.data()
+
+            let posts = []
+            const postsQuery = await db.collection('posts').where('uid', '==', uid).get() 
+
+            postsQuery.forEach(function(response){
+                posts.push(response.data())
+            })
+
+            user.posts = orderBy(posts, 'data', 'desc')
+
+            dispatch({type:'LOGIN', payload:user})
         }catch(e){
             alert(e)
         }
