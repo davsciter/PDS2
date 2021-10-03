@@ -39,4 +39,5 @@ Crie uma nova branch na interface do Github e rode os seguintes comandos:
  * npm install
  * npm install --global expo-cli
  * expo start
+ 
  Fação o download e instalação do APP do Expo Cli em seu smartphone. Após isso, conecte o telefone via cabo USB no seu computador, e abra o APP na opção de ler QR, e leia o código QR na página web que abriu apos rodar o "expo start".
